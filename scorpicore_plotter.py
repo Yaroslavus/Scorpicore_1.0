@@ -23,11 +23,14 @@ def draw_the_event (event_number, day):
 #    cluster_number = []
     
     for item in Pmt.pmt.list_of_pmts:
-        
 #        if (item.number%2 == 0) and (math.isnan(item.gain) is False):
         x.append(item.x)
         y.append(item.y)
-        ampl.append(item.amplitude)
+        
+        if item.cleaning_status == 1:
+            ampl.append(item.amplitude)
+        elif item.cleaning_status == 0:
+            ampl.append(0)
 #        cluster.append(item.cluster)
         global_number.append(item.global_number)
         
@@ -40,7 +43,7 @@ def draw_the_event (event_number, day):
     
     plt.scatter(x, y, cmap = 'hot_r', s = 60, c = ampl, alpha = 0.5, marker=u'$\u2B23$')
     cbar = plt.colorbar()
-    cbar.set_label('Amplitudes')
+    cbar.set_label('Amplitudes, p.e.')
 
 #    values_of_clusters = global_number [3::32]
 #    print (values_of_clusters, len(values_of_clusters))

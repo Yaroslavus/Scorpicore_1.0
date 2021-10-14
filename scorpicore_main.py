@@ -13,6 +13,10 @@ import init_all_channels
 import scorpicore_plotter
 import Pmt as Pmt
 import scorpicore_cleaning
+TRESHOLD_CLEANING = 4000
+TRESHOLD_FOR_SUM_OF_NEIGHBORS_CLEANING = 20000
+TRESHOLD_FOR_NUM_OF_NEIGHBORS_CLEANING_number = 5
+TRESHOLD_FOR_NUM_OF_NEIGHBORS_CLEANING_amplitude = 3000
 # =============================================================================
 #
 # =============================================================================
@@ -30,10 +34,11 @@ def find_the_event_for_its_number(day, number, event_clean_id):
                     tail = line[0]
                     break
                 line = fin.readline().split()
-                
+#        print(tail, number)
+#        print(tools.data_dir() + "/" + day + "/" + tail + "_clean.out")
         with open(tools.data_dir() + "/" + day + "/" + tail + "_clean.out", "r") as fin:
             next_event_number = int(fin.readline().split()[1])
-            while next_event_number:
+            while next_event_number != '':
                 if next_event_number == number:
                     for _ in range(23):
                         matrix.append(fin.readline().split())
@@ -55,7 +60,7 @@ def find_the_event_for_its_number(day, number, event_clean_id):
                 
         with open(tools.data_dir() + "/" + day + "/" + tail + "_dynamic.out", "r") as fin:
             next_event_number = int(fin.readline().split()[1])
-            while next_event_number:
+            while next_event_number != '':
                 if next_event_number == number:
                     for _ in range(23):
                         matrix.append(fin.readline().split())
@@ -78,7 +83,7 @@ def find_the_event_for_its_number(day, number, event_clean_id):
                 
         with open(tools.data_dir() + "/" + day + "/" + tail + "_static.out", "r") as fin:
             next_event_number = int(fin.readline().split()[1])
-            while next_event_number:
+            while next_event_number != '':
                 if next_event_number == number:
                     for _ in range(23):
                         matrix.append(fin.readline().split())
@@ -125,22 +130,34 @@ day, event_numbers_string = tools.read_input_card()
 
 event_numbers_list = event_numbers_string.split()
 
-for i in range(0, len(event_numbers_list), 2):
-    event_numbers_and_clean_id_list.append([event_numbers_list[i], event_numbers_list[i+1]])
+for i in range(0, len(event_numbers_list), 3):
+    event_numbers_and_clean_id_list.append([event_numbers_list[i], event_numbers_list[i+1], event_numbers_list[i+2]])
 
 event_number_list_after_zero_cleaning = []
-print("START CYCLE!")
 #print(event_numbers_and_clean_id_list, len(event_numbers_and_clean_id_list))
 
 event_counter = 0
 for event_box in event_numbers_and_clean_id_list:
     event_number = int(event_box[0])
     event_clean_id = event_box[1]
+    cleaning_type = event_box[2]
     print("Event number ", event_number, " with ", event_clean_id, "-mode is processing...")
     matrix_with_event_data = find_the_event_for_its_number(day, event_number, event_clean_id)
 
     init_all_channels.init_pmts_with_zeros()
     init_all_channels.init_pmts_for_event(matrix_with_event_data, event_clean_id)
+    
+    cleaning_sequence = cleaning_type.split()
+    for cleaning in cleaning_sequence: 
+    
+        if cleaning_type == 'a':
+            scorpicore_cleaning.sum_of_neighbors_cleaning(event_number, TRESHOLD_FOR_SUM_OF_NEIGHBORS_CLEANING)
+        elif cleaning_type == 'n':
+            scorpicore_cleaning.num_of_neighbors_cleaning(event_number, TRESHOLD_FOR_NUM_OF_NEIGHBORS_CLEANING_amplitude, TRESHOLD_FOR_NUM_OF_NEIGHBORS_CLEANING_number)
+        elif cleaning_type == 't':
+            scorpicore_cleaning.treshold_cleaning(event_number, TRESHOLD_CLEANING)
+        elif cleaning_type == 'zero':
+            pass
     
 #    zero_cleaning_result = scorpicore_cleaning.zero_cleaning(event_number)
 #    if zero_cleaning_result == 0:
@@ -162,8 +179,8 @@ for event_box in event_numbers_and_clean_id_list:
 #    not_empty_counter = 1
 #    for item in Pmt.pmt.list_of_pmts:
 #        total_counter += 1
-#        print(item.string_of_values())
 #        if item.amplitude != 0:
+#            print(item.string_of_values())
 #            not_empty_counter += 1
 #    print(total_counter, not_empty_counter)
     

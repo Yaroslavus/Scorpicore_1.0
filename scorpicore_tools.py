@@ -237,5 +237,16 @@ def system_exit():
 #
 # =============================================================================
 
-#def event_plotter(event):
+def list_of_events_pseudo_input_card(number):
     
+    list_of_events = []
+    with open("/home/yaroslav/Yaroslavus_GitHub/DATA/281017/dynamic_events_list.txt", "r") as fin:
+        line = fin.readline()
+        line = fin.readline()
+        while line:
+            line = line.split()
+            coin = int(line[2])
+            if coin >= number:
+                list_of_events.append(int(line[1]))
+            line = fin.readline()
+    return " ".join([str(i) + " d" for i in list_of_events])

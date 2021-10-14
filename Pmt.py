@@ -14,13 +14,14 @@ class pmt:
     
     list_of_pmts = []
 
-    def __init__(self, global_number=0, x=0, y=0, amplitude=0, ignore_status=0, neighbors_list=[]):
+    def __init__(self, global_number=0, x=0, y=0, amplitude=0, ignore_status=0, neighbors_list=[], cleaning_status = 1):
 
         self.global_number = global_number
         self.x = x
         self.y = y
         self.amplitude = amplitude
         self.neighbors_list = neighbors_list
+        self.cleaning_status = cleaning_status
         self.list_of_pmts.append (self)
         
     def show_item (item):
@@ -28,15 +29,16 @@ class pmt:
                 "global_number", item.global_number,
                 "x_coord:", item.x,
                 "y_coord:", item.y,
-                "amplitude:", item.amplitude))
+                "amplitude:", item.amplitude,
+                "cleaning_status", item.cleaning_status))
 
         
     def string_of_values (item):
-        return ("Global number: {}\tX: {}\tY: {}\tAmplitude: {}\tNeighbors: {}".format(
-                item.global_number, item.x, item.y, item.amplitude, item.neighbors_list))
+        return ("Global number: {}\tX: {}\tY: {}\tAmplitude: {}\tNeighbors: {}\tCleaning_status: {}".format(
+                item.global_number, item.x, item.y, item.amplitude, item.neighbors_list, item.cleaning_status))
   
     def list_of_values (item):
-        return item.global_number, item.x, item.y, item.amplitude, item.neighbors_list
+        return item.global_number, item.x, item.y, item.amplitude, item.neighbors_list, item.cleaning_status
     
 #    def print_list_of_channels ():
 #        for ch in channel.list_of_channels:
