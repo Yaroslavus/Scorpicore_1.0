@@ -34,34 +34,34 @@ class channel:
         self.trigger_status = trigger_status # 14
         self.list_of_channels.append (self)
         
-    def show_item (item):
+    def show_item (self):
         print("{}\t{}\n{}\t{}\n{}\t{}\n{}\t{}\n{}\t{}\n{}\t{}\n{}\t{}\n{}\t{}\n{}\t{}\n{}\t{}\n{}\t{}\n{}\t{}\n{}\t{}\n{}\t{}".format(
-                "number:", item.number, # 1
-                "pmt_number:", item.pmt_number, # 2
-                "cluster_number", item.cluster, # 3
-                "global_number", item.global_number, # 4
-                "gain:", item.gain, # 5
-                "k_adc:", item.k_adc, # 6
-                "rel_sens:", item.rel_sens, # 7
-                "code_per_pe:", item.code_per_pe, # 8
-                "x_coord:", item.x, # 9
-                "y_coord:", item.y, # 10
-                "cur_count_rate_number:", item.cur_count_rate_number, # 11
-                "amplitude:", item.amplitude, # 12
-                "ignore_status:", item.ignore_status, # 13
-                "trigger_status", item.trigger_status)) # 14
+                "number:", self.number, # 1
+                "pmt_number:", self.pmt_number, # 2
+                "cluster_number", self.cluster, # 3
+                "global_number", self.global_number, # 4
+                "gain:", self.gain, # 5
+                "k_adc:", self.k_adc, # 6
+                "rel_sens:", self.rel_sens, # 7
+                "code_per_pe:", self.code_per_pe, # 8
+                "x_coord:", self.x, # 9
+                "y_coord:", self.y, # 10
+                "cur_count_rate_number:", self.cur_count_rate_number, # 11
+                "amplitude:", self.amplitude, # 12
+                "ignore_status:", self.ignore_status, # 13
+                "trigger_status", self.trigger_status)) # 14
 
         
-    def string_of_values (item):
+    def string_of_values (self):
         return ("{} {} {} {} {} {} {} {} {} {} {} {} {}\n".format(
-                item.number, item.pmt_number, item.cluster, # 3
-                item.global_number, item.gain, item.k_adc, # 6
-                item.rel_sens, item.code_per_pe, item.x, item.y, # 10
-                item.cur_count_rate_number, item.amplitude, # 12
-                item.ignore_status, item.trigger_status)) # 14
+                self.number, self.pmt_number, self.cluster, # 3
+                self.global_number, self.gain, self.k_adc, # 6
+                self.rel_sens, self.code_per_pe, self.x, self.y, # 10
+                self.cur_count_rate_number, self.amplitude, # 12
+                self.ignore_status, self.trigger_status)) # 14
   
-    def list_of_values (item):
-        return item.number, item.pmt_number, item.cluster, item.global_number, item.gain, item.k_adc, item.rel_sens, item.code_per_pe, item.x, item.y, item.cur_count_rate_number, item.amplitude, item.ignore_status, item.trigger_status # 14
+    def list_of_values (self):
+        return self.number, self.pmt_number, self.cluster, self.global_number, self.gain, self.k_adc, self.rel_sens, self.code_per_pe, self.x, self.y, self.cur_count_rate_number, self.amplitude, self.ignore_status, self.trigger_status # 14
     
 #    def print_list_of_channels ():
 #        for ch in channel.list_of_channels:

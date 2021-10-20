@@ -5,8 +5,8 @@ Created on Wed Oct  6 16:00:43 2021
 
 @author: yaroslav
 """
-import Pmt as Pmt
-import scorpicore_tools as tools
+import Pmt
+#import scorpicore_tools as tools
 
 
 #def zero_cleaning(event_number):

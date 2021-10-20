@@ -86,8 +86,8 @@ def init_pmts_with_zeros ():
                 k_adc = float(l[5]),
                 rel_sens = float(l[6]),
                 code_per_pe = float(l[7]),
-                x = round(float(l[8])*10, 3),
-                y = round(float(l[9])*10, 3),
+                x = round(float(l[8]), 3),
+                y = round(float(l[9]), 3),
                 cur_count_rate_number = float(l[10]),
                 amplitude = float(l[11])
                        )

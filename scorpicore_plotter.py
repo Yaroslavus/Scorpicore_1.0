@@ -11,7 +11,7 @@ import Channel as Ch
 import math
 import Pmt
     
-def draw_the_event (event_number, day):
+def draw_the_event (event_number, day, hillas_parameters_string):
     
 #    nan = float("nan")
     x = []
@@ -37,9 +37,10 @@ def draw_the_event (event_number, day):
     fig, ax = plt.subplots(figsize=(25,15))
     plt.xlabel("x")
     plt.ylabel("y")
+    plt.text(0.1, 0.1, hillas_parameters_string, fontsize=5, horizontalalignment='left', verticalalignment='top', transform=ax.transAxes)
     plt.title("Event {} in day {}".format(event_number, day))
-    ax.set_xlim([-5000, 5000])
-    ax.set_ylim([-5000, 5000])
+    ax.set_xlim([-500, 500])
+    ax.set_ylim([-500, 500])
     
     plt.scatter(x, y, cmap = 'hot_r', s = 60, c = ampl, alpha = 0.5, marker=u'$\u2B23$')
     cbar = plt.colorbar()

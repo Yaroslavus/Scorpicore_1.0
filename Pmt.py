@@ -24,21 +24,21 @@ class pmt:
         self.cleaning_status = cleaning_status
         self.list_of_pmts.append (self)
         
-    def show_item (item):
+    def show_item (self):
         print("{}\t{}\n{}\t{}\n{}\t{}\n{}\t{}".format(
-                "global_number", item.global_number,
-                "x_coord:", item.x,
-                "y_coord:", item.y,
-                "amplitude:", item.amplitude,
-                "cleaning_status", item.cleaning_status))
+                "global_number", self.global_number,
+                "x_coord:", self.x,
+                "y_coord:", self.y,
+                "amplitude:", self.amplitude,
+                "cleaning_status", self.cleaning_status))
 
         
-    def string_of_values (item):
+    def string_of_values (self):
         return ("Global number: {}\tX: {}\tY: {}\tAmplitude: {}\tNeighbors: {}\tCleaning_status: {}".format(
-                item.global_number, item.x, item.y, item.amplitude, item.neighbors_list, item.cleaning_status))
+                self.global_number, self.x, self.y, self.amplitude, self.neighbors_list, self.cleaning_status))
   
-    def list_of_values (item):
-        return item.global_number, item.x, item.y, item.amplitude, item.neighbors_list, item.cleaning_status
+    def list_of_values (self):
+        return self.global_number, self.x, self.y, self.amplitude, self.neighbors_list, self.cleaning_status
     
 #    def print_list_of_channels ():
 #        for ch in channel.list_of_channels:

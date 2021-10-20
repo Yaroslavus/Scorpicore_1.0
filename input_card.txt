@@ -23,9 +23,41 @@
 #    -------------------------------------------------------------      SET_2      ---------------------------------------------------------------------
 #    ------------------------------------------------------Put here the events with to process:---------------------------------------------------------
 #
-#    Event numbers must be separated by spaces.
+#
+# Put the objects to process like the sequence of the chunks, where every chunks consists of the next information:
+# 1.	Event number.
+#
+# 2.	Clean/static/dynamic mode flag.
+# 2.1.	Clean amplitudes - amplitudes without pedestal decementing (with noises).
+#	Flag: "c".
+# 2.2.	Static amplitudes - amplitudes, normalized for "static" or "fast" pedestals. Static
+#	pedestals calculates one time for current day or current run.
+#	Flag: "s".
+# 2.3.	Dynamic amplitudes - amplitudes, normalized for "dynamic" or "slow" pedestals. Slow
+#	pedestals calculates for every 2-minute file.
+#	Flag: "d".
+#
+# 3.	Cleaning type.
+# 3.1.	"Threshold cleaning" - all pixels which have amplitudes lower than some threshold, will
+#	be initialized with zero amplitudes.
+#	Flag: "t"
+# 3.2.	"Amplitude cleaning" - if sum of all neighbor pixels amlitudes lower than some threshold,
+#	current pixel will be initialized with zero amplitude.
+#	Flag: "a".
+# 3.3.	"Neighbor cleaning" - if number of neighbor pixels with amplitude lower than some threshold
+#	is lower than some threshold number, current pixel will be initialized with zero amplitude.
+#	Flag: "n"
+# 3.4.	No cleaning.
+#	Flag: "z".
+#
+# All objects must be separated by space.
+#
+# Examples:
+# 456378 c t
+# 67389267 d z 63789 s n 182901 d a
+#
 ####################################################################################################
-14176 c zero
+14176 c z
 ####################################################################################################
 #
 #
