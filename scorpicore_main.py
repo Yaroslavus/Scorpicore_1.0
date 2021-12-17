@@ -175,3 +175,4 @@ for event_box in event_numbers_and_clean_id_list:
 #init_all_channels.init_pmts_with_zeros()    
 #init_all_channels.init_random_pmts_and_their_neighbors(10)
 #scorpicore_plotter.draw_the_event(10, "random pmts with neighbors")
+#30389027

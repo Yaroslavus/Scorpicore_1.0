@@ -6,7 +6,7 @@ Created on Thu Apr 23 05:04:05 2020
 @author: yaroslav
 """
 import Channel as cc
-import Pmt as pmt
+import Pmt
 import scorpicore_tools as tools
 import random
 
@@ -47,16 +47,16 @@ def global_init_of_all_channels_and_pmts_and_fill_txt_file ():
     with open("neighbors_table.txt", "w+") as fout:
         for channel in cc.channel.list_of_channels:
             if channel.number%2 == 0:
-                pmt.pmt(
+                Pmt.pmt(
                         global_number = channel.global_number,
                         x = channel.x,
                         y = channel.y,
                         amplitude = channel.amplitude
                         )
         max_len_of_list = 0
-        for item_1 in pmt.pmt.list_of_pmts:
+        for item_1 in Pmt.pmt.list_of_pmts:
             neighbors_list = []
-            for item_2 in pmt.pmt.list_of_pmts:
+            for item_2 in Pmt.pmt.list_of_pmts:
                 distance = tools.square_root((item_1.x - item_2.x)**2 + (item_1.y - item_2.y)**2)
                 if (20 <= distance <= 31) and (item_1.global_number != item_2.global_number) and (item_2.global_number not in neighbors_list):
                     neighbors_list.append(item_2.global_number)
@@ -98,7 +98,7 @@ def init_pmts_with_zeros ():
                 neighbors_global_number = int(line[0])
                 if (neighbors_global_number == channel_item.global_number) and (neighbors_global_number != 0):
                     neighbors_line = [int(number) for number in line[1:]]
-                    pmt.pmt(
+                    Pmt.pmt(
                             global_number = neighbors_global_number,
                             x = channel_item.x,
                             y = channel_item.y,
@@ -109,8 +109,9 @@ def init_pmts_with_zeros ():
 def init_pmts_for_event (matrix, event_clean_id):
         
     for line in matrix:
-        cluster_number_from_event = int(line[0])
+        cluster_number_from_event = int(line[0]) + 1
         ampl_string = line[2:]
+#        print(ampl_string)
             
         if event_clean_id == "c":
             for i in range(0, len(ampl_string), 2):
@@ -119,21 +120,27 @@ def init_pmts_for_event (matrix, event_clean_id):
                 low_high_channel_oddity_from_event = int(ampl_string[i+1])
     
                 for channel in cc.channel.list_of_channels:
+#                    print("1", channel.cluster, channel.pmt_number, channel.number%2)
+#                    print("2", cluster_number_from_event, pmt_number_from_event, low_high_channel_oddity_from_event)
+
                     if (channel.cluster == cluster_number_from_event and
                         channel.pmt_number == pmt_number_from_event and
                         channel.number%2 == low_high_channel_oddity_from_event):
+#                        print("here")
                         output_amplitude = 0 if ampl*channel.code_per_pe < 0 else ampl*channel.code_per_pe
                         
-                for pmt_item in pmt.pmt.list_of_pmts:
+                for pmt_item in Pmt.pmt.list_of_pmts:
+
                     if pmt_item.global_number == 28*pmt_number_from_event + cluster_number_from_event:
-                        pmt_item.amplitude = output_amplitude
+                        pmt_item.amplitude = round(output_amplitude, 3)
+#                        print("here")
 #                        for line in neighbors_matrix:
 #                            line = line.split()
 #                            global_number = int(line[0])
 #                            if global_number == pmt_item.global_number:
 #                                neighbors_line = [int(number) for number in line[1:]]
 #                                pmt_item.neighbors_list = neighbors_line   
-                            
+
         elif (event_clean_id == "d" or event_clean_id == "s"):
             for i in range(0, len(ampl_string), 3):
                 pmt_number_from_event = i//3 + 1
@@ -147,7 +154,7 @@ def init_pmts_for_event (matrix, event_clean_id):
                         channel.number%2 == low_high_channel_oddity_from_event):
                         output_amplitude = 0 if ampl*channel.code_per_pe < 0 else ampl*channel.code_per_pe
                         
-                for pmt_item in pmt.pmt.list_of_pmts:
+                for pmt_item in Pmt.pmt.list_of_pmts:
                     if pmt_item.global_number == 28*pmt_number_from_event + cluster_number_from_event:
                         pmt_item.amplitude = output_amplitude
                         pmt_item.ignore_status = ignore_status
@@ -157,6 +164,19 @@ def init_pmts_for_event (matrix, event_clean_id):
 #                                if global_number == pmt_item.global_number:
 #                                    neighbors_line = [int(number) for number in line[1:]]
 #                                    pmt_item.neighbors_list = neighbors_line
+                        
+                        
+#    counter_1 = 0
+#    counter_2 = 0
+#    for pmt_item in Pmt.pmt.list_of_pmts:
+#        counter_2 += 1
+#        if pmt_item.amplitude != 0:
+##            print(pmt_item.global_number, pmt_item.amplitude)
+#            counter_1 += 1
+#    print("Non zero pmts after init: ", counter_1, "from ", counter_2)
+#    if counter_1 == 0:
+#        print("WARNING !!!")
+    
 
 def init_random_pmts_and_their_neighbors (number_of_pmts):
     
@@ -165,10 +185,10 @@ def init_random_pmts_and_their_neighbors (number_of_pmts):
         random_list.append(random.randint(1, 28)*28 + random.randint(1,22))
     print(random_list)
 
-    for pmt_item in pmt.pmt.list_of_pmts:
+    for pmt_item in Pmt.pmt.list_of_pmts:
         if pmt_item.global_number in random_list:
             pmt_item.amplitude = 10
-            for pmt_item_n in pmt.pmt.list_of_pmts:
+            for pmt_item_n in Pmt.pmt.list_of_pmts:
                 if pmt_item_n.global_number in pmt_item.neighbors_list:
                     pmt_item_n.amplitude = 5
 

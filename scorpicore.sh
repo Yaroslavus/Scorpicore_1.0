@@ -2,6 +2,6 @@
 
 ######################################################################
 
-python3 scorpicore_main.py | tee scorpicore_stdout.txt
+python3 scorpicore_main_1.py | tee scorpicore_stdout.txt
 
 ######################################################################
