@@ -111,7 +111,6 @@ def init_pmts_for_event (matrix, event_clean_id):
     for line in matrix:
         cluster_number_from_event = int(line[0]) + 1
         ampl_string = line[2:]
-#        print(ampl_string)
             
         if event_clean_id == "c":
             for i in range(0, len(ampl_string), 2):
@@ -120,26 +119,16 @@ def init_pmts_for_event (matrix, event_clean_id):
                 low_high_channel_oddity_from_event = int(ampl_string[i+1])
     
                 for channel in cc.channel.list_of_channels:
-#                    print("1", channel.cluster, channel.pmt_number, channel.number%2)
-#                    print("2", cluster_number_from_event, pmt_number_from_event, low_high_channel_oddity_from_event)
 
                     if (channel.cluster == cluster_number_from_event and
                         channel.pmt_number == pmt_number_from_event and
                         channel.number%2 == low_high_channel_oddity_from_event):
-#                        print("here")
-                        output_amplitude = 0 if ampl*channel.code_per_pe < 0 else ampl*channel.code_per_pe
+                        output_amplitude = 0 if ampl/channel.code_per_pe < 0 else ampl/channel.code_per_pe
                         
                 for pmt_item in Pmt.pmt.list_of_pmts:
 
                     if pmt_item.global_number == 28*pmt_number_from_event + cluster_number_from_event:
                         pmt_item.amplitude = round(output_amplitude, 3)
-#                        print("here")
-#                        for line in neighbors_matrix:
-#                            line = line.split()
-#                            global_number = int(line[0])
-#                            if global_number == pmt_item.global_number:
-#                                neighbors_line = [int(number) for number in line[1:]]
-#                                pmt_item.neighbors_list = neighbors_line   
 
         elif (event_clean_id == "d" or event_clean_id == "s"):
             for i in range(0, len(ampl_string), 3):
@@ -152,7 +141,7 @@ def init_pmts_for_event (matrix, event_clean_id):
                     if (channel.cluster == cluster_number_from_event and
                         channel.pmt_number == pmt_number_from_event and
                         channel.number%2 == low_high_channel_oddity_from_event):
-                        output_amplitude = 0 if ampl*channel.code_per_pe < 0 else ampl*channel.code_per_pe
+                        output_amplitude = 0 if ampl/channel.code_per_pe < 0 else ampl/channel.code_per_pe
                         
                 for pmt_item in Pmt.pmt.list_of_pmts:
                     if pmt_item.global_number == 28*pmt_number_from_event + cluster_number_from_event:

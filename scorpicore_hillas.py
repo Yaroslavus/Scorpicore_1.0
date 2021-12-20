@@ -10,7 +10,7 @@ import Pmt
 import scorpicore_tools as tools
 import math
 
-def find_the_hillas_parameters(event_number):
+def find_the_hillas_parameters(event_number, corrections_x_y):
     
     print("\n\nHillas parameters for event {} are calculating...".format(event_number))
         
@@ -20,14 +20,19 @@ def find_the_hillas_parameters(event_number):
     sy_sq = 0
     sxy = 0
     SIZE = 0
+    
+
+    
     for pmt_item in Pmt.pmt.list_of_pmts:
         if pmt_item.amplitude != 0:
+            corrected_x = pmt_item.x - corrections_x_y[0]
+            corrected_y = pmt_item.y - corrections_x_y[1]
             SIZE += pmt_item.amplitude
-            sx += pmt_item.amplitude*pmt_item.x
-            sy += pmt_item.amplitude*pmt_item.y
-            sx_sq += pmt_item.amplitude*((pmt_item.x)**2)
-            sy_sq += pmt_item.amplitude*((pmt_item.y)**2)
-            sxy += pmt_item.amplitude*((pmt_item.x)*(pmt_item.y))
+            sx += pmt_item.amplitude*corrected_x
+            sy += pmt_item.amplitude*corrected_y
+            sx_sq += pmt_item.amplitude*((corrected_x)**2)
+            sy_sq += pmt_item.amplitude*((corrected_y)**2)
+            sxy += pmt_item.amplitude*((corrected_x)*(corrected_y))
     try:
         x_av = sx/SIZE
         y_av = sy/SIZE
@@ -50,9 +55,8 @@ def find_the_hillas_parameters(event_number):
         AZWIDTH = round(tools.square_root((x_av**2)*x_sq_av + y_sq_av*(y_av**2) + 2*x_av*y_av*xy_av), 3)
         MISS = round(tools.square_root((u*(x_av)**2 + v*(y_av)**2)/2 - 2*sigma_xy*x_av*y_av/z), 3)
         SINUS_ALPHA = round(MISS/DISTANCE, 3)
-        ALPHA = round(math.asin(SINUS_ALPHA)*360/math.pi, 3)
+        ALPHA = round(math.asin(SINUS_ALPHA)*180/math.pi, 3)
         
-    #    hillas_titles_tuple = ("SIZE", "DISTANCE", "LENGTH", "WIDTH", "AZWIDTH", "MISS", "ALPHA")
         hillas_tuple = (SIZE, DISTANCE, LENGTH, WIDTH, AZWIDTH, MISS, ALPHA)
     
     except Exception:

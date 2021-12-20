@@ -14,6 +14,8 @@ import scorpicore_plotter
 import Pmt
 import scorpicore_cleaning
 import scorpicore_hillas
+MIN_BORDER_THRESHOLD = 0
+MAX_BORDER_THRESHOLD = 100
 TRESHOLD_CLEANING = 4000
 TRESHOLD_FOR_SUM_OF_NEIGHBORS_CLEANING = 20000
 TRESHOLD_FOR_NUM_OF_NEIGHBORS_CLEANING_number = 5
@@ -139,6 +141,10 @@ for event_box in event_numbers_and_clean_id_list:
 # Initialization block
     init_all_channels.init_pmts_with_zeros()
     init_all_channels.init_pmts_for_event(matrix_with_event_data, event_clean_id)
+    
+#    for pmt_item in Pmt.pmt.list_of_pmts:
+#        if pmt_item.amplitude != 0:
+#            print(pmt_item.string_of_values())
 
 # cleaning block    
     cleaning_sequence = cleaning_type.split()
@@ -150,14 +156,16 @@ for event_box in event_numbers_and_clean_id_list:
             scorpicore_cleaning.num_of_neighbors_cleaning(event_number, TRESHOLD_FOR_NUM_OF_NEIGHBORS_CLEANING_amplitude, TRESHOLD_FOR_NUM_OF_NEIGHBORS_CLEANING_number)
         elif cleaning_type == 't':
             scorpicore_cleaning.treshold_cleaning(event_number, TRESHOLD_CLEANING)
+        elif cleaning_type == 'top':
+            scorpicore_cleaning.topological_cleaning_1(event_number, MIN_BORDER_THRESHOLD, MAX_BORDER_THRESHOLD)            
         elif cleaning_type == 'z':
             pass
         
 # hillas parameters block
-    event_hillas_titles_tuple, event_hillas_tuple = scorpicore_hillas.find_the_hillas_parameters(event_number)
+    event_hillas_tuple = scorpicore_hillas.find_the_hillas_parameters(event_number)
     hillas_parameters_string = ""
-    for i in range(len(event_hillas_titles_tuple)):
-        hillas_parameters_string += "\n{}: {}".format(event_hillas_titles_tuple[i], event_hillas_tuple[i])
+    for i in range(len(event_hillas_tuple)):
+        hillas_parameters_string += "{}\n".format(event_hillas_tuple[i])
     
     print(hillas_parameters_string)
 

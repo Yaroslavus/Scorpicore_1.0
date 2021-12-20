@@ -17,7 +17,8 @@ def draw_the_event (event_number, day, hillas_parameters_string):
     x = []
     y = []
     ampl = []
-    global_number = []
+#    global_number = []
+    spot_id = []
 #    cluster_x = []
 #    cluster_y = []
 #    cluster_number = []
@@ -26,15 +27,16 @@ def draw_the_event (event_number, day, hillas_parameters_string):
 #        if (item.number%2 == 0) and (math.isnan(item.gain) is False):
         x.append(item.x)
         y.append(item.y)
+        spot_id.append(item.spot_id)
         
         if item.cleaning_status == 1:
             ampl.append(item.amplitude)
         elif item.cleaning_status == 0:
             ampl.append(0)
-#        cluster.append(item.cluster)
-        global_number.append(item.global_number)
+#        cluster_number.append(item.global_number%28)
+#        global_number.append(item.global_number)
         
-    fig, ax = plt.subplots(figsize=(25,15))
+    fig, ax = plt.subplots(figsize=(15,15))
     plt.xlabel("x")
     plt.ylabel("y")
     plt.text(0.1, 0.1, hillas_parameters_string, fontsize=5, horizontalalignment='left', verticalalignment='top', transform=ax.transAxes)
@@ -57,9 +59,12 @@ def draw_the_event (event_number, day, hillas_parameters_string):
     for i in range (len (ampl)):
         if ampl[i] == 0:
             plt.annotate(ampl [i], xy=(x [i], y [i]), xytext=(x [i], y [i]), fontsize = 3)
+        else:
+            plt.annotate(round(spot_id [i]), xy=(x [i], y [i]), xytext=(x [i], y [i]), fontsize = 3)
+
 
 #        plt.annotate(global_number [i], xy=(x [i], y [i]), xytext=(x [i], y [i]), fontsize = 3)
-#    for i in range (len (cluster)):
-#        plt.annotate(cluster [i], xy=(x_of_clusters [i], y_of_clusters [i]), xytext=(x_of_clusters [i], y_of_clusters [i]), fontsize = 30, alpha = 0.5)
+#    for i in range (len (cluster_number)):
+#        plt.annotate(cluster_number [i], xy=(x_of_clusters [i], y_of_clusters [i]), xytext=(x_of_clusters [i], y_of_clusters [i]), fontsize = 30, alpha = 0.5)
         
     plt.show()
